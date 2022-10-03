@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
 }
 
@@ -49,5 +50,9 @@ dependencies {
 
     // for splash Screen
     implementation "com.airbnb.android:lottie:3.4.0"
+
+
+    // material design
+    implementation 'com.google.android.material:material:1.6.1'
 
 }
