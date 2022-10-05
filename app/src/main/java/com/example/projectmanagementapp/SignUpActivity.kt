@@ -1,9 +1,13 @@
 package com.example.projectmanagementapp
 
+import android.content.ContentValues
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.et_email
@@ -38,8 +42,30 @@ class SignUpActivity : BaseActivity() {
         val email: String = et_email.text.toString().trim { it <= ' ' }
         val password: String = et_password_sign_up.text.toString().trim { it <= ' ' }
 
-        if(validateFrom(name,email,password)){
-            Toast.makeText(this, "Now we can register a new user. ",Toast.LENGTH_SHORT).show()
+        if (validateFrom(name, email, password)) {
+            showProgressDialog(resources.getString(R.string.please_wait))
+
+            FirebaseAuth.getInstance()
+                .createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    hideProgressDialog()
+                    if (task.isSuccessful) {
+                        val firebaseUser: FirebaseUser = task.result!!.user!!
+                        val registeredEmail = firebaseUser.email!!
+                        Toast.makeText(
+                            this,
+                            "$name you have successfully registered the email address $registeredEmail",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        FirebaseAuth.getInstance().signOut()
+                        finish()
+                    } else {
+                        Log.w(ContentValues.TAG, "signInWithCustomToken:failure", task.exception)
+                        Toast.makeText(
+                            baseContext, "Registration failed.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
         }
     }
 
