@@ -25,6 +25,12 @@ class SignInActivity : BaseActivity() {
         }
     }
 
+    fun signInSuccess(user: User){
+        hideProgressDialog()
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
     private fun setActionBar() {
         setSupportActionBar(toolbar_sign_in_activity)
 
@@ -49,8 +55,7 @@ class SignInActivity : BaseActivity() {
                     hideProgressDialog()
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "createUserWithEmail:success")
-                        startActivity(Intent(this, MainActivity::class.java))
+                        FirestoreClass().signInUser(this)
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)

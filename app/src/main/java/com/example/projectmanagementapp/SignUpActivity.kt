@@ -20,6 +20,13 @@ class SignUpActivity : BaseActivity() {
         setActionBar()
     }
 
+    fun userRegisteredSuccess(){
+        Toast.makeText(this, "You have successfully registered",Toast.LENGTH_LONG).show()
+        hideProgressDialog()
+        FirebaseAuth.getInstance().signOut()
+        finish()
+    }
+
     private fun setActionBar() {
         setSupportActionBar(toolbar_sign_up_activity)
 
@@ -51,13 +58,11 @@ class SignUpActivity : BaseActivity() {
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
                         val registeredEmail = firebaseUser.email!!
-                        Toast.makeText(
-                            this,
-                            "$name you have successfully registered the email address $registeredEmail",
-                            Toast.LENGTH_LONG
-                        ).show()
-                        FirebaseAuth.getInstance().signOut()
-                        finish()
+
+                        val user = User(firebaseUser.uid,name, registeredEmail)
+
+                        FirestoreClass().registerUser(this, user)
+
                     } else {
                         Log.w(ContentValues.TAG, "signInWithCustomToken:failure", task.exception)
                         Toast.makeText(
