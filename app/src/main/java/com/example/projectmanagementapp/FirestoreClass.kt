@@ -8,26 +8,26 @@ import com.google.firebase.firestore.SetOptions
 
 
 class FirestoreClass {
-    private val mFireStore=FirebaseFirestore.getInstance()
+    private val mFireStore = FirebaseFirestore.getInstance()
 
-    fun registerUser(activity: SignUpActivity,userInfo: User){
+    fun registerUser(activity: SignUpActivity, userInfo: User) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId()).set(userInfo, SetOptions.merge())
             .addOnSuccessListener {
                 activity.userRegisteredSuccess()
-            }.addOnFailureListener{
-                Log.e(activity.javaClass.simpleName,"Error")
+            }.addOnFailureListener {
+                Log.e(activity.javaClass.simpleName, "Error")
             }
     }
 
-    fun signInUser(activity: Activity){
+    fun loadUserData(activity: Activity) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
-            .addOnSuccessListener {document->
+            .addOnSuccessListener { document ->
                 val loggedInUser = document.toObject(User::class.java)!!
 
-                when(activity){
+                when (activity) {
                     is SignInActivity -> {
                         activity.signInSuccess(loggedInUser)
                     }
@@ -35,11 +35,15 @@ class FirestoreClass {
                     is MainActivity -> {
                         activity.updateNavigationUserDetails(loggedInUser)
                     }
+
+                    is MyProfileActivity -> {
+                        activity.setUserDataInUI(loggedInUser)
+                    }
                 }
 
-            }.addOnFailureListener{
+            }.addOnFailureListener {
 
-                when(activity){
+                when (activity) {
                     is SignInActivity -> {
                         activity.hideProgressDialog()
                     }
@@ -47,16 +51,18 @@ class FirestoreClass {
                     is MainActivity -> {
                         activity.hideProgressDialog()
                     }
+
+
                 }
-                Log.e(activity.javaClass.simpleName,"Error")
+                Log.e(activity.javaClass.simpleName, "Error")
             }
     }
 
-    fun getCurrentUserId():String{
-        val currentUser= FirebaseAuth.getInstance().currentUser
-        var currentUserID=""
-        if(currentUser!=null){
-            currentUserID=currentUser.uid
+    fun getCurrentUserId(): String {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        var currentUserID = ""
+        if (currentUser != null) {
+            currentUserID = currentUser.uid
         }
         return currentUserID
     }
