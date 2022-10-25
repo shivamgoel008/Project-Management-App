@@ -1,14 +1,29 @@
 package com.example.projectmanagementapp
 
-import androidx.appcompat.app.AppCompatActivity
+
+
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_my_profile.*
+import java.io.IOException
 
-// TODO (Step 1: Create a MyProfileActivity class.)
-// START
+
 class MyProfileActivity : BaseActivity() {
 
+    private var mSelectedImageFileUri: Uri? = null
+
+    companion object {
+        private const val READ_STORAGE_PERMISSION_CODE = 3
+        private const val PICK_IMAGE_REQUEST_CODE = 2
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
@@ -16,6 +31,72 @@ class MyProfileActivity : BaseActivity() {
         setupActionBar()
 
         FirestoreClass().loadUserData(this)
+
+
+        iv_profile_user_image.setOnClickListener {
+
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            ) {
+                print("SHIVAM DFGH")
+                showImageChooser()
+            } else {
+                print("SHIVAM ASDF")
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                    READ_STORAGE_PERMISSION_CODE
+                )
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK
+            && requestCode == PICK_IMAGE_REQUEST_CODE
+            && data!!.data != null
+        ) {
+
+            mSelectedImageFileUri = data.data
+
+            try {
+                Glide
+                    .with(this)
+                    .load(Uri.parse(mSelectedImageFileUri.toString())) // URI of the image
+                    .centerCrop() // Scale type of the image.
+                    .placeholder(R.drawable.ic_user_place_holder) // A default place holder
+                    .into(iv_profile_user_image) // the view in which the image will be loaded.
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showImageChooser()
+            } else {
+                showImageChooser()
+                Toast.makeText(
+                    this,
+                    "Oops, you just denied the permission for storage. You can also allow it from settings.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun showImageChooser() {
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
+        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
     }
 
     private fun setupActionBar() {
@@ -38,7 +119,7 @@ class MyProfileActivity : BaseActivity() {
             .load(user.image)
             .centerCrop()
             .placeholder(R.drawable.ic_user_place_holder)
-            .into(iv_user_image)
+            .into(iv_profile_user_image)
 
         et_name.setText(user.name)
         et_email.setText(user.email)
@@ -46,4 +127,7 @@ class MyProfileActivity : BaseActivity() {
             et_mobile.setText(user.mobile.toString())
         }
     }
+
+
+
 }
