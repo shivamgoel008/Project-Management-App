@@ -151,6 +151,7 @@ class MyProfileActivity : BaseActivity() {
                             Log.e("Downloadable Image URL", uri.toString())
 
                             mProfileImageURL = uri.toString()
+                            updateUserProfileData()
                         }
                 }
                 .addOnFailureListener { exception ->
@@ -167,6 +168,7 @@ class MyProfileActivity : BaseActivity() {
 
 
     fun setUserDataInUI(user: User) {
+        mUserDetails = user
         Glide
             .with(this@MyProfileActivity)
             .load(user.image)
@@ -183,6 +185,31 @@ class MyProfileActivity : BaseActivity() {
     private fun getFileExtension(uri: Uri?): String? {
 
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
+    }
+
+    private fun updateUserProfileData() {
+
+        val userHashMap = HashMap<String, Any>()
+
+        if (mProfileImageURL.isNotEmpty() && mProfileImageURL != mUserDetails.image) {
+            userHashMap[Constants.IMAGE] = mProfileImageURL
+        }
+
+        if (et_name.text.toString() != mUserDetails.name) {
+            userHashMap[Constants.NAME] = et_name.text.toString()
+        }
+
+        if (et_mobile.text.toString() != mUserDetails.mobile.toString()) {
+            userHashMap[Constants.MOBILE] = et_mobile.text.toString().toLong()
+        }
+        FirestoreClass().updateUserProfileData(this@MyProfileActivity, userHashMap)
+    }
+
+    fun profileUpdateSuccess() {
+
+        hideProgressDialog()
+
+        finish()
     }
 
 
