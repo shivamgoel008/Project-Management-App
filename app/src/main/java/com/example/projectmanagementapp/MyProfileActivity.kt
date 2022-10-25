@@ -30,6 +30,7 @@ class MyProfileActivity : BaseActivity() {
         private const val READ_STORAGE_PERMISSION_CODE = 3
         private const val PICK_IMAGE_REQUEST_CODE = 2
     }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
@@ -206,9 +207,8 @@ class MyProfileActivity : BaseActivity() {
     }
 
     fun profileUpdateSuccess() {
-
         hideProgressDialog()
-
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
