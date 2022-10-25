@@ -55,8 +55,4 @@
     <dimen name="my_profile_et_mobile_marginTop">20dp</dimen>
     <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
 
-
-    <string name="mobile">Mobile</string>
-    <string name="update">UPDATE</string>
-    <string name="my_profile">My Profile</string>
 </resources>
