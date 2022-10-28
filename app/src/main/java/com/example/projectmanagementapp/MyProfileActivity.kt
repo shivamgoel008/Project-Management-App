@@ -1,7 +1,5 @@
 package com.example.projectmanagementapp
 
-
-
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -30,7 +28,7 @@ class MyProfileActivity : BaseActivity() {
         private const val READ_STORAGE_PERMISSION_CODE = 3
         private const val PICK_IMAGE_REQUEST_CODE = 2
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_profile)
@@ -42,7 +40,10 @@ class MyProfileActivity : BaseActivity() {
 
         iv_profile_user_image.setOnClickListener {
 
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 print("SHIVAM DFGH")
                 showImageChooser()
@@ -112,7 +113,8 @@ class MyProfileActivity : BaseActivity() {
     }
 
     private fun showImageChooser() {
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         )
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
     }
@@ -183,6 +185,7 @@ class MyProfileActivity : BaseActivity() {
             et_mobile.setText(user.mobile.toString())
         }
     }
+
     private fun getFileExtension(uri: Uri?): String? {
 
         return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
