@@ -24,10 +24,7 @@ class MyProfileActivity : BaseActivity() {
     private lateinit var mUserDetails: User
     private var mProfileImageURL: String = ""
 
-    companion object {
-        private const val READ_STORAGE_PERMISSION_CODE = 3
-        private const val PICK_IMAGE_REQUEST_CODE = 2
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +43,13 @@ class MyProfileActivity : BaseActivity() {
                 ) == PackageManager.PERMISSION_GRANTED
             ) {
                 print("SHIVAM DFGH")
-                showImageChooser()
+                Constants.showImageChooser(this)
             } else {
                 print("SHIVAM ASDF")
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    READ_STORAGE_PERMISSION_CODE
+                    Constants.READ_STORAGE_PERMISSION_CODE
                 )
             }
         }
@@ -72,7 +69,7 @@ class MyProfileActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK
-            && requestCode == PICK_IMAGE_REQUEST_CODE
+            && requestCode == Constants.PICK_IMAGE_REQUEST_CODE
             && data!!.data != null
         ) {
 
@@ -98,11 +95,11 @@ class MyProfileActivity : BaseActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == READ_STORAGE_PERMISSION_CODE) {
+        if (requestCode == Constants.READ_STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                showImageChooser()
+                Constants.showImageChooser(this)
             } else {
-                showImageChooser()
+                Constants.showImageChooser(this)
                 Toast.makeText(
                     this,
                     "Oops, you just denied the permission for storage. You can also allow it from settings.",
@@ -112,12 +109,7 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    private fun showImageChooser() {
-        val galleryIntent = Intent(
-            Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        )
-        startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST_CODE)
-    }
+
 
     private fun setupActionBar() {
 
@@ -138,7 +130,8 @@ class MyProfileActivity : BaseActivity() {
 
         if (mSelectedImageFileUri != null) {
             val sRef: StorageReference = FirebaseStorage.getInstance().reference.child(
-                "USER_IMAGE" + System.currentTimeMillis() + "." + getFileExtension(
+                "USER_IMAGE" + System.currentTimeMillis() + "." + Constants.getFileExtension(
+                    this,
                     mSelectedImageFileUri
                 )
             )
@@ -186,10 +179,7 @@ class MyProfileActivity : BaseActivity() {
         }
     }
 
-    private fun getFileExtension(uri: Uri?): String? {
 
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(contentResolver.getType(uri!!))
-    }
 
     private fun updateUserProfileData() {
 
