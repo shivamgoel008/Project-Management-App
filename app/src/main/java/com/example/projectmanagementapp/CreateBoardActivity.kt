@@ -14,13 +14,21 @@ import kotlinx.android.synthetic.main.activity_create_board.*
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import java.io.IOException
 
-class CreateBoardActivity : AppCompatActivity() {
+class CreateBoardActivity : BaseActivity() {
 
     private var mSelectedImageFileUri: Uri? = null
+
+    private lateinit var mUserName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_board)
+
+        setupActionBar()
+
+        if(intent.hasExtra(Constants.NAME)){
+            mUserName= intent.getStringExtra(Constants.NAME).toString()
+        }
 
         iv_board_image.setOnClickListener {
 
@@ -38,9 +46,14 @@ class CreateBoardActivity : AppCompatActivity() {
                 )
             }
         }
-
-        setupActionBar()
     }
+
+    fun boardCreatedSuccessfully(){
+        hideProgressDialog()
+        finish()
+    }
+
+
 
     private fun setupActionBar() {
 

@@ -59,6 +59,27 @@ class FirestoreClass {
             }
     }
 
+    fun createBoard(activity: CreateBoardActivity, board: Board) {
+
+        mFireStore.collection(Constants.BOARDS)
+            .document()
+            .set(board, SetOptions.merge())
+            .addOnSuccessListener {
+                Log.e(activity.javaClass.simpleName, "Board created successfully.")
+
+                Toast.makeText(activity, "Board created successfully.", Toast.LENGTH_SHORT).show()
+
+                activity.boardCreatedSuccessfully()
+            }
+            .addOnFailureListener { e ->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while creating a board.",
+                    e
+                )
+            }
+    }
     fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
@@ -68,7 +89,6 @@ class FirestoreClass {
 
                 Toast.makeText(activity, "Profile updated successfully!", Toast.LENGTH_SHORT).show()
 
-                // Notify the success result.
                 activity.profileUpdateSuccess()
             }
             .addOnFailureListener { e ->
