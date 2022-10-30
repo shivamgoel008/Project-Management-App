@@ -80,6 +80,7 @@ class FirestoreClass {
                 )
             }
     }
+
     fun updateUserProfileData(activity: MyProfileActivity, userHashMap: HashMap<String, Any>) {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
