@@ -142,6 +142,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // Create an instance of BoardItemsAdapter and pass the boardList to it.
             val adapter = BoardItemsAdapter(this@MainActivity, boardsList)
             rv_boards_list.adapter = adapter // Attach the adapter to the recyclerView.
+            adapter.setOnClickListener(object : BoardItemsAdapter.OnClickListener{
+                override fun onClick(position: Int, model: Board) {
+                    startActivity(Intent(this@MainActivity, TaskListActivity::class.java))
+                }
+            })
         } else {
             rv_boards_list.visibility = View.GONE
             tv_no_boards_available.visibility = View.VISIBLE
