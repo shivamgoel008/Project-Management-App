@@ -1,8 +1,11 @@
 package com.example.projectmanagementapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.activity_task_list.*
@@ -38,6 +41,21 @@ class TaskListActivity : BaseActivity() {
             actionBar.title = mBoardDetails.name
         }
         toolbar_task_list_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_members, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_members -> {
+                startActivity(Intent(this@TaskListActivity, MembersActivity::class.java))
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun boardDetails(board: Board) {

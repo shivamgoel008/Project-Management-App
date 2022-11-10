@@ -25,7 +25,7 @@
     <dimen name="authentication_screen_marginStartEnd">25dp</dimen>
     <dimen name="authentication_screen_card_view_marginTop">60dp</dimen>
     <dimen name="card_view_elevation">10dp</dimen>
-    <dimen name="card_view_corner_radius">10dp</dimen>
+    <dimen name="card_view_corner_radius">8dp</dimen>
     <dimen name="card_view_layout_content_padding">16dp</dimen>
     <dimen name="authentication_screen_til_marginStartEnd">16dp</dimen>
     <dimen name="et_text_size">16sp</dimen>
@@ -96,5 +96,8 @@
     <dimen name="item_card_name_text_size">16sp</dimen>
     <dimen name="item_card_members_text_padding">10dp</dimen>
     <dimen name="item_card_members_text_size">14sp</dimen>
+
+    <dimen name="members_content_padding">16dp</dimen>
+    <dimen name="members_cv_marginTop">5dp</dimen>
 
 </resources>
