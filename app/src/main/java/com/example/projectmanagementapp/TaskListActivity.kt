@@ -152,6 +152,10 @@ class TaskListActivity : BaseActivity() {
         FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
     }
 
+    fun cardDetails(taskListPosition: Int, cardPosition: Int) {
+        startActivity(Intent(this@TaskListActivity, CardDetailsActivity::class.java))
+    }
+
     companion object {
         const val MEMBERS_REQUEST_CODE: Int = 13
     }
