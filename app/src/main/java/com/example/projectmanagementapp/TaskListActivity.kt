@@ -1,5 +1,6 @@
 package com.example.projectmanagementapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,21 +14,30 @@ import kotlinx.android.synthetic.main.activity_task_list.*
 class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
+    private lateinit var mBoardDocumentId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
-        var boardDocumentId = ""
         if (intent.hasExtra(Constants.DOCUMENT_ID)) {
-            boardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID).toString()
-
+            mBoardDocumentId = intent.getStringExtra(Constants.DOCUMENT_ID)!!
         }
 
-        println("ROUND $boardDocumentId")
+        println("ROUND $mBoardDocumentId")
 
         showProgressDialog(resources.getString(R.string.please_wait))
-        FirestoreClass().getBoardDetails(this@TaskListActivity, boardDocumentId)
+        FirestoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == MEMBERS_REQUEST_CODE) {
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FirestoreClass().getBoardDetails(this@TaskListActivity, mBoardDocumentId)
+        } else {
+            Log.e("Cancelled", "Cancelled")
+        }
     }
 
     private fun setupActionBar() {
@@ -53,7 +63,7 @@ class TaskListActivity : BaseActivity() {
             R.id.action_members -> {
                 val intent = Intent(this@TaskListActivity, MembersActivity::class.java)
                 intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
-                startActivity(intent)
+                startActivityForResult(intent, MEMBERS_REQUEST_CODE)
                 return true
             }
         }
@@ -140,5 +150,9 @@ class TaskListActivity : BaseActivity() {
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FirestoreClass().addUpdateTaskList(this@TaskListActivity, mBoardDetails)
+    }
+
+    companion object {
+        const val MEMBERS_REQUEST_CODE: Int = 13
     }
 }

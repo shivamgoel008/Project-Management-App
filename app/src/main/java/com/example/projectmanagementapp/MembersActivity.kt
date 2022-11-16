@@ -1,5 +1,6 @@
 package com.example.projectmanagementapp
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Menu
@@ -14,6 +15,8 @@ class MembersActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var mAssignedMembersList:ArrayList<User>
+    private var anyChangesDone: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_members)
@@ -101,9 +104,19 @@ class MembersActivity : BaseActivity() {
         rv_members_list.adapter = adapter
     }
 
+    override fun onBackPressed() {
+        if (anyChangesDone) {
+            setResult(Activity.RESULT_OK)
+        }
+        super.onBackPressed()
+    }
+
     fun memberAssignSuccess(user: User) {
         hideProgressDialog()
         mAssignedMembersList.add(user)
+
+        anyChangesDone = true
+
         setupMembersList(mAssignedMembersList)
     }
 }
