@@ -1,6 +1,11 @@
 package com.example.projectmanagementapp
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_card_details.*
 
 
@@ -17,7 +22,18 @@ class CardDetailsActivity : BaseActivity() {
         getIntentData()
         setupActionBar()
 
+        et_name_card_details.setText(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+        et_name_card_details.setSelection(et_name_card_details.text.toString().length)
+
+        btn_update_card_details.setOnClickListener {
+            if(et_name_card_details.text.toString().isNotEmpty()) {
+                updateCardDetails()
+            }else{
+                Toast.makeText(this@CardDetailsActivity, "Enter card name.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
     private fun setupActionBar() {
 
@@ -33,6 +49,29 @@ class CardDetailsActivity : BaseActivity() {
         toolbar_card_details_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_delete_card, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_delete_card -> {
+                alertDialogForDeleteCard(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun addUpdateTaskListSuccess() {
+
+        hideProgressDialog()
+
+        setResult(Activity.RESULT_OK)
+        finish()
+    }
+
     private fun getIntentData() {
 
         if (intent.hasExtra(Constants.BOARD_DETAIL)) {
@@ -44,5 +83,58 @@ class CardDetailsActivity : BaseActivity() {
         if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)) {
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
         }
+    }
+
+
+    private fun updateCardDetails() {
+        val card = Card(
+            et_name_card_details.text.toString(),
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+        )
+
+        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
+    }
+
+
+    private fun alertDialogForDeleteCard(cardName: String) {
+        val builder = AlertDialog.Builder(this)
+        //set title for alert dialog
+        builder.setTitle(resources.getString(R.string.alert))
+        builder.setMessage(
+            resources.getString(
+                R.string.confirmation_message_to_delete_card,
+                cardName
+            )
+        )
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+
+        builder.setPositiveButton(resources.getString(R.string.yes)) { dialogInterface, which ->
+            dialogInterface.dismiss()
+            deleteCard()
+        }
+        builder.setNegativeButton(resources.getString(R.string.no)) { dialogInterface, which ->
+            dialogInterface.dismiss()
+        }
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+
+    private fun deleteCard() {
+
+        val cardsList: ArrayList<Card> = mBoardDetails.taskList[mTaskListPosition].cards
+        cardsList.removeAt(mCardPosition)
+
+        val taskList: ArrayList<Task> = mBoardDetails.taskList
+        taskList.removeAt(taskList.size - 1)
+
+        taskList[mTaskListPosition].cards = cardsList
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FirestoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
     }
 }
