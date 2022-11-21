@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO (Step 2: Add a menu file for delete card.)-->
-<!--START-->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,4 +10,3 @@
         android:title="@string/delete_card"
         app:showAsAction="always" />
 </menu>
-<!--END-->

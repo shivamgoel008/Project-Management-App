@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import android.graphics.Color
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_card_details.*
 
@@ -14,6 +15,7 @@ class CardDetailsActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
     private var mTaskListPosition: Int = -1
     private var mCardPosition: Int = -1
+    private var mSelectedColor: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +33,10 @@ class CardDetailsActivity : BaseActivity() {
             }else{
                 Toast.makeText(this@CardDetailsActivity, "Enter card name.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        tv_select_label_color.setOnClickListener {
+            labelColorsListDialog()
         }
     }
 
@@ -64,6 +70,37 @@ class CardDetailsActivity : BaseActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun colorsList(): ArrayList<String> {
+
+        val colorsList: ArrayList<String> = ArrayList()
+        colorsList.add("#43C86F")
+        colorsList.add("#0C90F1")
+        colorsList.add("#F72400")
+        colorsList.add("#7A8089")
+        colorsList.add("#D57C1D")
+        colorsList.add("#770000")
+        colorsList.add("#0022F8")
+
+        return colorsList
+    }
+    private fun setColor() {
+        tv_select_label_color.text = ""
+        tv_select_label_color.setBackgroundColor(Color.parseColor(mSelectedColor))
+    }
+
+    private fun labelColorsListDialog() {
+
+        val colorsList: ArrayList<String> = colorsList()
+
+        val listDialog = object : LabelColorListDialog(this@CardDetailsActivity, colorsList, resources.getString(R.string.str_select_label_color)) {
+            override fun onItemSelected(color: String) {
+                mSelectedColor = color
+                setColor()
+            }
+        }
+        listDialog.show()
+    }
+
     fun addUpdateTaskListSuccess() {
 
         hideProgressDialog()
@@ -90,9 +127,9 @@ class CardDetailsActivity : BaseActivity() {
         val card = Card(
             et_name_card_details.text.toString(),
             mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
-            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo,
+            mSelectedColor
         )
-
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
 
         showProgressDialog(resources.getString(R.string.please_wait))
@@ -102,7 +139,6 @@ class CardDetailsActivity : BaseActivity() {
 
     private fun alertDialogForDeleteCard(cardName: String) {
         val builder = AlertDialog.Builder(this)
-        //set title for alert dialog
         builder.setTitle(resources.getString(R.string.alert))
         builder.setMessage(
             resources.getString(
