@@ -16,6 +16,7 @@ class CardDetailsActivity : BaseActivity() {
     private var mTaskListPosition: Int = -1
     private var mCardPosition: Int = -1
     private var mSelectedColor: String = ""
+    private lateinit var mMembersDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,11 @@ class CardDetailsActivity : BaseActivity() {
             }else{
                 Toast.makeText(this@CardDetailsActivity, "Enter card name.", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        mSelectedColor = mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].labelColor
+        if (mSelectedColor.isNotEmpty()) {
+            setColor()
         }
 
         tv_select_label_color.setOnClickListener {
@@ -92,7 +98,7 @@ class CardDetailsActivity : BaseActivity() {
 
         val colorsList: ArrayList<String> = colorsList()
 
-        val listDialog = object : LabelColorListDialog(this@CardDetailsActivity, colorsList, resources.getString(R.string.str_select_label_color)) {
+        val listDialog = object : LabelColorListDialog(this@CardDetailsActivity, colorsList, resources.getString(R.string.str_select_label_color), mSelectedColor) {
             override fun onItemSelected(color: String) {
                 mSelectedColor = color
                 setColor()
@@ -119,6 +125,10 @@ class CardDetailsActivity : BaseActivity() {
         }
         if (intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)) {
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION, -1)
+        }
+
+        if (intent.hasExtra(Constants.BOARD_MEMBERS_LIST)) {
+            mMembersDetailList = intent.getParcelableArrayListExtra(Constants.BOARD_MEMBERS_LIST)!!
         }
     }
 

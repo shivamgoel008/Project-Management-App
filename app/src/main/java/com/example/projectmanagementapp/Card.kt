@@ -14,7 +14,8 @@ data class Card(
         constructor(source: Parcel) : this(
                 source.readString()!!,
                 source.readString()!!,
-                source.createStringArrayList()!!
+                source.createStringArrayList()!!,
+                source.readString()!!
         )
 
         override fun describeContents() = 0
@@ -23,6 +24,7 @@ data class Card(
                 writeString(name)
                 writeString(createdBy)
                 writeStringList(assignedTo)
+                writeString(labelColor)
         }
 
         companion object {

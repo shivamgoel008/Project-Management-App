@@ -15,6 +15,7 @@ class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var mBoardDocumentId: String
+    private lateinit var mAssignedMembersDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +87,10 @@ class TaskListActivity : BaseActivity() {
 
         val adapter = TaskListItemsAdapter(this@TaskListActivity, board.taskList)
         rv_task_list.adapter = adapter
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FirestoreClass().getAssignedMembersListDetails(this@TaskListActivity, mBoardDetails.assignedTo)
     }
 
     fun createTaskList(taskListName: String) {
@@ -157,7 +162,13 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMembersDetailList)
         startActivityForResult(intent, CARD_DETAILS_REQUEST_CODE)
+    }
+
+    fun boardMembersDetailList(list: ArrayList<User>) {
+        mAssignedMembersDetailList = list
+        hideProgressDialog()
     }
 
     companion object {
