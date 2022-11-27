@@ -44,6 +44,10 @@ class CardDetailsActivity : BaseActivity() {
         tv_select_label_color.setOnClickListener {
             labelColorsListDialog()
         }
+
+        tv_select_members.setOnClickListener {
+            membersListDialog()
+        }
     }
 
 
@@ -168,6 +172,33 @@ class CardDetailsActivity : BaseActivity() {
         val alertDialog: AlertDialog = builder.create()
         alertDialog.setCancelable(false)
         alertDialog.show()
+    }
+
+    private fun membersListDialog() {
+
+        val cardAssignedMembersList =
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+
+        if (cardAssignedMembersList.size > 0) {
+            for (i in mMembersDetailList.indices) {
+                for (j in cardAssignedMembersList) {
+                    if (mMembersDetailList[i].id == j) {
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        } else {
+            for (i in mMembersDetailList.indices) {
+                mMembersDetailList[i].selected = false
+            }
+        }
+
+        val listDialog = object : MembersListDialog(this@CardDetailsActivity, mMembersDetailList, resources.getString(R.string.str_select_member)) {
+            override fun onItemSelected(user: User, action: String) {
+                //todo
+            }
+        }
+        listDialog.show()
     }
 
     private fun deleteCard() {
