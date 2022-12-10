@@ -8,7 +8,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.dialog_list.view.*
 
-abstract class LabelColorListDialog(context: Context,
+abstract class LabelColorListDialog(
+    context: Context,
     private var list: ArrayList<String>,
     private val title: String = "",
     private val mSelectedColor: String = ""
@@ -41,5 +42,6 @@ abstract class LabelColorListDialog(context: Context,
             }
         }
     }
+
     protected abstract fun onItemSelected(color: String)
 }

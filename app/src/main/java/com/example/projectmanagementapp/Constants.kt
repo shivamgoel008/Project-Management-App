@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
-import androidx.core.app.ActivityCompat.startActivityForResult
 
 object Constants {
 
@@ -17,7 +16,7 @@ object Constants {
     const val NAME: String = "name"
     const val MOBILE: String = "mobile"
     const val ASSIGNED_TO: String = "assignedTo"
-    const val DOCUMENT_ID:String="documentId"
+    const val DOCUMENT_ID: String = "documentId"
     const val TASK_LIST: String = "taskList"
     const val BOARD_DETAIL: String = "board_detail"
     const val ID: String = "id"
@@ -29,7 +28,6 @@ object Constants {
 
     const val TASK_LIST_ITEM_POSITION: String = "task_list_item_position"
     const val CARD_LIST_ITEM_POSITION: String = "card_list_item_position"
-
 
 
     fun showImageChooser(activity: Activity) {

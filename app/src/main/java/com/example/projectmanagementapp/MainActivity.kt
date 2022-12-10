@@ -33,12 +33,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setActionBar()
         nav_view.setNavigationItemSelectedListener(this)
 
-        FirestoreClass().loadUserData(this,true)
-        mUserName=FirestoreClass().getCurrentUserId()
+        FirestoreClass().loadUserData(this, true)
+        mUserName = FirestoreClass().getCurrentUserId()
 
-        fab_create_board.setOnClickListener{
-            val intent=Intent(this,CreateBoardActivity::class.java)
-            intent.putExtra(Constants.NAME,mUserName)
+        fab_create_board.setOnClickListener {
+            val intent = Intent(this, CreateBoardActivity::class.java)
+            intent.putExtra(Constants.NAME, mUserName)
             startActivityForResult(intent, CREATE_BOARD_REQUEST_CODE)
         }
     }
@@ -68,8 +68,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetails(user: User,readBoardsList:Boolean) {
-        mUserName=user.name
+    fun updateNavigationUserDetails(user: User, readBoardsList: Boolean) {
+        mUserName = user.name
         Glide
             .with(this)
             .load(user.image)
@@ -80,9 +80,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         println("Shivam ${user.image}")
         println("Shivam ${user.name}")
 
-        tv_username.text=user.name
+        tv_username.text = user.name
 
-        if(readBoardsList){
+        if (readBoardsList) {
             showProgressDialog(resources.getString(R.string.please_wait))
             FirestoreClass().getBoardsList(this)
         }
@@ -97,7 +97,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             && requestCode == MY_PROFILE_REQUEST_CODE
         ) {
             FirestoreClass().loadUserData(this@MainActivity)
-        }  else if (resultCode == Activity.RESULT_OK && requestCode == CREATE_BOARD_REQUEST_CODE) {
+        } else if (resultCode == Activity.RESULT_OK && requestCode == CREATE_BOARD_REQUEST_CODE) {
             FirestoreClass().getBoardsList(this@MainActivity)
         } else {
             Log.e("Cancelled", "Cancelled")
@@ -107,7 +107,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_my_profile -> {
-                startActivityForResult(Intent(this, MyProfileActivity::class.java), MY_PROFILE_REQUEST_CODE )
+                startActivityForResult(
+                    Intent(this, MyProfileActivity::class.java),
+                    MY_PROFILE_REQUEST_CODE
+                )
                 Toast.makeText(this, "My Profile", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_sign_out -> {
@@ -142,10 +145,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             // Create an instance of BoardItemsAdapter and pass the boardList to it.
             val adapter = BoardItemsAdapter(this@MainActivity, boardsList)
             rv_boards_list.adapter = adapter // Attach the adapter to the recyclerView.
-            adapter.setOnClickListener(object : BoardItemsAdapter.OnClickListener{
+            adapter.setOnClickListener(object : BoardItemsAdapter.OnClickListener {
                 override fun onClick(position: Int, model: Board) {
-                    val intent= Intent(this@MainActivity, TaskListActivity::class.java)
-                    intent.putExtra(Constants.DOCUMENT_ID,model.documentId)
+                    val intent = Intent(this@MainActivity, TaskListActivity::class.java)
+                    intent.putExtra(Constants.DOCUMENT_ID, model.documentId)
                     startActivity(intent)
                 }
             })

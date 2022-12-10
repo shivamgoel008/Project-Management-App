@@ -3,6 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
+
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+
 }
 
 android {
@@ -32,6 +36,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 }
 
 dependencies {
@@ -69,4 +74,22 @@ dependencies {
     // for using firebase storage
     implementation 'com.google.firebase:firebase-storage:20.1.0'
 
+    // webrtc peer to peer coneection
+    implementation 'org.webrtc:google-webrtc:1.0.32006'
+    implementation 'org.webrtc:google-webrtc:1.0.+'
+    implementation fileTree(dir: "libs", include: ["*.aar"])
+
+    implementation("io.ktor:ktor-client-android:$ktor_version")
+    implementation("io.ktor:ktor-client-websocket:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-gson:$ktor_version")
+}
+
+repositories {
+
+    maven {
+        url "https://maven.google.com"
+    }
+    mavenCentral()
+    jcenter()
 }

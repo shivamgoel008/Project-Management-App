@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_label_color.view.*
-import java.util.*
 
 class LabelColorListItemsAdapter(
     private val context: Context,
@@ -18,7 +17,9 @@ class LabelColorListItemsAdapter(
     var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return MyViewHolder(LayoutInflater.from(context).inflate(R.layout.item_label_color, parent, false))
+        return MyViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_label_color, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

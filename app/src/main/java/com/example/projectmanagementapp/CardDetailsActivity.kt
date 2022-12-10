@@ -2,18 +2,17 @@ package com.example.projectmanagementapp
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import android.graphics.Color
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.activity_card_details.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CardDetailsActivity : BaseActivity() {
@@ -36,10 +35,11 @@ class CardDetailsActivity : BaseActivity() {
         et_name_card_details.setSelection(et_name_card_details.text.toString().length)
 
         btn_update_card_details.setOnClickListener {
-            if(et_name_card_details.text.toString().isNotEmpty()) {
+            if (et_name_card_details.text.toString().isNotEmpty()) {
                 updateCardDetails()
-            }else{
-                Toast.makeText(this@CardDetailsActivity, "Enter card name.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@CardDetailsActivity, "Enter card name.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -113,6 +113,7 @@ class CardDetailsActivity : BaseActivity() {
 
         return colorsList
     }
+
     private fun setColor() {
         tv_select_label_color.text = ""
         tv_select_label_color.setBackgroundColor(Color.parseColor(mSelectedColor))
@@ -122,7 +123,12 @@ class CardDetailsActivity : BaseActivity() {
 
         val colorsList: ArrayList<String> = colorsList()
 
-        val listDialog = object : LabelColorListDialog(this@CardDetailsActivity, colorsList, resources.getString(R.string.str_select_label_color), mSelectedColor) {
+        val listDialog = object : LabelColorListDialog(
+            this@CardDetailsActivity,
+            colorsList,
+            resources.getString(R.string.str_select_label_color),
+            mSelectedColor
+        ) {
             override fun onItemSelected(color: String) {
                 mSelectedColor = color
                 setColor()
@@ -214,11 +220,20 @@ class CardDetailsActivity : BaseActivity() {
             }
         }
 
-        val listDialog = object : MembersListDialog(this@CardDetailsActivity, mMembersDetailList, resources.getString(R.string.str_select_member)) {
+        val listDialog = object : MembersListDialog(
+            this@CardDetailsActivity,
+            mMembersDetailList,
+            resources.getString(R.string.str_select_member)
+        ) {
             override fun onItemSelected(user: User, action: String) {
                 if (action == Constants.SELECT) {
-                    if (!mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.contains(user.id)) {
-                        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.add(user.id)
+                    if (!mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.contains(
+                            user.id
+                        )
+                    ) {
+                        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.add(
+                            user.id
+                        )
                     }
                 } else {
                     mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo.remove(
@@ -279,7 +294,8 @@ class CardDetailsActivity : BaseActivity() {
             rv_selected_members_list.visibility = View.VISIBLE
 
             rv_selected_members_list.layoutManager = GridLayoutManager(this@CardDetailsActivity, 6)
-            val adapter = CardMemberListItemsAdapter(this@CardDetailsActivity, selectedMembersList,true)
+            val adapter =
+                CardMemberListItemsAdapter(this@CardDetailsActivity, selectedMembersList, true)
             rv_selected_members_list.adapter = adapter
             adapter.setOnClickListener(object :
                 CardMemberListItemsAdapter.OnClickListener {
@@ -307,7 +323,8 @@ class CardDetailsActivity : BaseActivity() {
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
 
                 val sDayOfMonth = if (dayOfMonth < 10) "0$dayOfMonth" else "$dayOfMonth"
-                val sMonthOfYear = if ((monthOfYear + 1) < 10) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
+                val sMonthOfYear =
+                    if ((monthOfYear + 1) < 10) "0${monthOfYear + 1}" else "${monthOfYear + 1}"
 
                 val selectedDate = "$sDayOfMonth/$sMonthOfYear/$year"
                 tv_select_due_date.text = selectedDate

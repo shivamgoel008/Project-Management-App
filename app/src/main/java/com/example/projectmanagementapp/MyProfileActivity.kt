@@ -5,9 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
-import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -23,7 +21,6 @@ class MyProfileActivity : BaseActivity() {
     private var mSelectedImageFileUri: Uri? = null
     private lateinit var mUserDetails: User
     private var mProfileImageURL: String = ""
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +107,6 @@ class MyProfileActivity : BaseActivity() {
     }
 
 
-
     private fun setupActionBar() {
 
         setSupportActionBar(toolbar_my_profile_activity)
@@ -178,7 +174,6 @@ class MyProfileActivity : BaseActivity() {
             et_mobile.setText(user.mobile.toString())
         }
     }
-
 
 
     private fun updateUserProfileData() {

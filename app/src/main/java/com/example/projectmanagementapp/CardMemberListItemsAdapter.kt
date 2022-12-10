@@ -9,7 +9,11 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_card_selected_member.view.*
 
 
-open class CardMemberListItemsAdapter(private val context: Context, private var list: ArrayList<SelectedMembers>,private val assignMembers: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+open class CardMemberListItemsAdapter(
+    private val context: Context,
+    private var list: ArrayList<SelectedMembers>,
+    private val assignMembers: Boolean
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var onClickListener: OnClickListener? = null
 

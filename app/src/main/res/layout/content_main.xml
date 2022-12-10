@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO (Step 2: Create a content_main xml file.)-->
-<!--START-->
-<!--Move the activity_main xml file code to this file.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/ic_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:background="@drawable/ic_background"
     android:orientation="vertical"
     android:padding="16dp"
-    android:layout_width="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <androidx.cardview.widget.CardView

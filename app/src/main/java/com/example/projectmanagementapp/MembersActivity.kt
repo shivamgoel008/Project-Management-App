@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_members.*
@@ -14,7 +13,7 @@ import kotlinx.android.synthetic.main.dialog_search_member.*
 class MembersActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
-    private lateinit var mAssignedMembersList:ArrayList<User>
+    private lateinit var mAssignedMembersList: ArrayList<User>
     private var anyChangesDone: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +38,7 @@ class MembersActivity : BaseActivity() {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true)
             actionBar.setHomeAsUpIndicator(R.drawable.ic_white_color_back_24dp)
-            actionBar.title=resources.getString(R.string.members)
+            actionBar.title = resources.getString(R.string.members)
         }
 
         toolbar_members_activity.setNavigationOnClickListener { onBackPressed() }
@@ -94,7 +93,7 @@ class MembersActivity : BaseActivity() {
 
     fun setupMembersList(list: ArrayList<User>) {
 
-        mAssignedMembersList=list
+        mAssignedMembersList = list
         hideProgressDialog()
 
         rv_members_list.layoutManager = LinearLayoutManager(this@MembersActivity)

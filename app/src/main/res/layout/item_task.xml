@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="@dimen/task_item_cv_elevation"
-    app:cardCornerRadius="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardCornerRadius="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -238,5 +238,4 @@
                 tools:visibility="visible" />
         </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
-    <!--END-->
+</androidx.cardview.widget.CardView><!--END-->

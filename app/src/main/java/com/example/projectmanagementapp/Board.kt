@@ -9,7 +9,7 @@ data class Board(
     val createdBy: String = "",
     val assignedTo: ArrayList<String> = ArrayList(),
     var documentId: String = "",
-    var taskList:ArrayList<Task> = ArrayList()
+    var taskList: ArrayList<Task> = ArrayList()
 ) : Parcelable {
     constructor(source: Parcel) : this(
         source.readString()!!,
@@ -20,7 +20,7 @@ data class Board(
         source.createTypedArrayList(Task.CREATOR)!!
     )
 
-    override fun describeContents():Int {
+    override fun describeContents(): Int {
         return 0
     }
 
