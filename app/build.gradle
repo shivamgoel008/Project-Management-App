@@ -74,7 +74,7 @@ dependencies {
     // for using firebase storage
     implementation 'com.google.firebase:firebase-storage:20.1.0'
 
-    // webrtc peer to peer coneection
+    // webrtc peer to peer connection
     implementation 'org.webrtc:google-webrtc:1.0.32006'
     implementation 'org.webrtc:google-webrtc:1.0.+'
     implementation fileTree(dir: "libs", include: ["*.aar"])

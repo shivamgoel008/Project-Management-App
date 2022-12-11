@@ -8,4 +8,10 @@
         android:orderInCategory="100"
         android:title="@string/members"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_video_call"
+        android:orderInCategory="100"
+        android:title="@string/video_calling"
+        app:showAsAction="never" />
 </menu>

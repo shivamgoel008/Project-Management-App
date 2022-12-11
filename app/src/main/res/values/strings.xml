@@ -58,6 +58,7 @@
     <string name="no">No</string>
 
     <string name="str_select_label_color">Select Label Color</string>
-
     <string name="str_select_member">Select Member</string>
+
+    <string name="video_calling">Video Call</string>
 </resources>
