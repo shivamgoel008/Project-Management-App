@@ -24,6 +24,8 @@ object Constants {
     const val BOARD_MEMBERS_LIST: String = "board_members_list"
     const val SELECT: String = "Select"
     const val UN_SELECT: String = "UnSelect"
+    var isCallEnded: Boolean = false
+    var isIntiatedNow: Boolean = true
 
 
     const val TASK_LIST_ITEM_POSITION: String = "task_list_item_position"

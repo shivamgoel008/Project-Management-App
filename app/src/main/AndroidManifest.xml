@@ -17,6 +17,20 @@
         android:theme="@style/Theme.ProjectManagementApp"
         tools:targetApi="31">
         <activity
+            android:name=".VideoCallingStartActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".VideoCallingMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CardDetailsActivity"
             android:exported="false">
             <meta-data
