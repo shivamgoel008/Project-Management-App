@@ -98,6 +98,7 @@ class CreateBoardActivity : BaseActivity() {
     private fun createBoard() {
         val assignedUsersArrayList: ArrayList<String> = ArrayList()
         assignedUsersArrayList.add(getCurrentUserID())
+        println("SHIVAM FOL $mUserName")
         val board = Board(
             et_board_name.text.toString(),
             mBoardImageURL,

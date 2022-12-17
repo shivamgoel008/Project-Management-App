@@ -103,13 +103,10 @@ class CardDetailsActivity : BaseActivity() {
     private fun colorsList(): ArrayList<String> {
 
         val colorsList: ArrayList<String> = ArrayList()
-        colorsList.add("#43C86F")
-        colorsList.add("#0C90F1")
-        colorsList.add("#F72400")
-        colorsList.add("#7A8089")
-        colorsList.add("#D57C1D")
-        colorsList.add("#770000")
-        colorsList.add("#0022F8")
+        colorsList.add("#FFCCCB")
+        colorsList.add("#FFFFE0")
+        colorsList.add("#90EE90")
+
 
         return colorsList
     }
