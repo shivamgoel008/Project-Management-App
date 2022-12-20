@@ -1,9 +1,9 @@
 package com.example.projectmanagementapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_video_calling_main.*
@@ -28,7 +28,10 @@ class VideoCallingMainActivity : AppCompatActivity() {
                         if (it["type"] == "OFFER" || it["type"] == "ANSWER" || it["type"] == "END_CALL") {
                             room_id.error = "Please enter new meeting ID"
                         } else {
-                            val intent = Intent(this@VideoCallingMainActivity, VideoCallingStartActivity::class.java)
+                            val intent = Intent(
+                                this@VideoCallingMainActivity,
+                                VideoCallingStartActivity::class.java
+                            )
                             intent.putExtra("meetingID", room_id.text.toString())
                             intent.putExtra("isJoin", false)
                             startActivity(intent)
@@ -44,7 +47,8 @@ class VideoCallingMainActivity : AppCompatActivity() {
             if (room_id.text.toString().trim().isNullOrEmpty())
                 room_id.error = "Please enter meeting id"
             else {
-                val intent = Intent(this@VideoCallingMainActivity, VideoCallingStartActivity::class.java)
+                val intent =
+                    Intent(this@VideoCallingMainActivity, VideoCallingStartActivity::class.java)
                 intent.putExtra("meetingID", room_id.text.toString())
                 intent.putExtra("isJoin", true)
                 startActivity(intent)

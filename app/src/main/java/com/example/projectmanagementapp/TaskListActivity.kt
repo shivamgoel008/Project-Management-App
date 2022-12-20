@@ -8,7 +8,6 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_task_list.*
-import org.checkerframework.common.value.qual.IntRangeFromGTENegativeOne
 
 class TaskListActivity : BaseActivity() {
 
@@ -68,7 +67,7 @@ class TaskListActivity : BaseActivity() {
             }
 
             R.id.action_video_call -> {
-                val intent=Intent(this@TaskListActivity,VideoCallingMainActivity::class.java)
+                val intent = Intent(this@TaskListActivity, VideoCallingMainActivity::class.java)
                 startActivity(intent)
             }
         }

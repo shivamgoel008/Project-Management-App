@@ -4,16 +4,15 @@ package com.example.projectmanagementapp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import kotlinx.android.synthetic.main.activity_video_calling_start.*
-
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.webrtc.*
 
@@ -33,7 +32,7 @@ class VideoCallingStartActivity : AppCompatActivity() {
 
     val TAG = "MainActivity"
 
-    private var meetingID : String = "test-call"
+    private var meetingID: String = "test-call"
 
     private var isJoin = false
 
@@ -53,7 +52,7 @@ class VideoCallingStartActivity : AppCompatActivity() {
         if (intent.hasExtra("meetingID"))
             meetingID = intent.getStringExtra("meetingID")!!
         if (intent.hasExtra("isJoin"))
-            isJoin = intent.getBooleanExtra("isJoin",false)
+            isJoin = intent.getBooleanExtra("isJoin", false)
 
         checkCameraAndAudioPermission()
         audioManager.selectAudioDevice(AudioManager.AudioDevice.SPEAKER_PHONE)
@@ -105,7 +104,8 @@ class VideoCallingStartActivity : AppCompatActivity() {
         if ((ContextCompat.checkSelfPermission(this, CAMERA_PERMISSION)
                     != PackageManager.PERMISSION_GRANTED) &&
             (ContextCompat.checkSelfPermission(this, AUDIO_PERMISSION)
-                    != PackageManager.PERMISSION_GRANTED)) {
+                    != PackageManager.PERMISSION_GRANTED)
+        ) {
             requestCameraAndAudioPermission()
         } else {
             onCameraAndAudioPermissionGranted()
@@ -153,7 +153,7 @@ class VideoCallingStartActivity : AppCompatActivity() {
                 }
 
                 override fun onTrack(transceiver: RtpTransceiver?) {
-                    Log.e(TAG, "onTrack: $transceiver" )
+                    Log.e(TAG, "onTrack: $transceiver")
                 }
             }
         )
@@ -161,9 +161,9 @@ class VideoCallingStartActivity : AppCompatActivity() {
         rtcClient.initSurfaceView(doctor_view)
         rtcClient.initSurfaceView(patient_view)
         rtcClient.startLocalVideoCapture(patient_view)
-        signallingClient =  SignalingClient(meetingID,createSignallingClientListener())
+        signallingClient = SignalingClient(meetingID, createSignallingClientListener())
         if (!isJoin)
-            rtcClient.call(sdpObserver,meetingID)
+            rtcClient.call(sdpObserver, meetingID)
     }
 
     private fun createSignallingClientListener() = object : SignalingClientListener {
@@ -174,7 +174,7 @@ class VideoCallingStartActivity : AppCompatActivity() {
         override fun onOfferReceived(description: SessionDescription) {
             rtcClient.onRemoteSessionReceived(description)
             Constants.isIntiatedNow = false
-            rtcClient.answer(sdpObserver,meetingID)
+            rtcClient.answer(sdpObserver, meetingID)
             remote_view_loading.isGone = true
         }
 
@@ -201,10 +201,15 @@ class VideoCallingStartActivity : AppCompatActivity() {
     private fun requestCameraAndAudioPermission(dialogShown: Boolean = false) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA_PERMISSION) &&
             ActivityCompat.shouldShowRequestPermissionRationale(this, AUDIO_PERMISSION) &&
-            !dialogShown) {
+            !dialogShown
+        ) {
             showPermissionRationaleDialog()
         } else {
-            ActivityCompat.requestPermissions(this, arrayOf(CAMERA_PERMISSION, AUDIO_PERMISSION), CAMERA_AUDIO_PERMISSION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(CAMERA_PERMISSION, AUDIO_PERMISSION),
+                CAMERA_AUDIO_PERMISSION_REQUEST_CODE
+            )
         }
     }
 
@@ -223,7 +228,11 @@ class VideoCallingStartActivity : AppCompatActivity() {
             .show()
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CAMERA_AUDIO_PERMISSION_REQUEST_CODE && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
             onCameraAndAudioPermissionGranted()

@@ -15,7 +15,6 @@ import android.util.Log
 import androidx.annotation.Nullable
 import org.webrtc.ThreadUtils
 import java.util.*
-import kotlin.collections.HashSet
 
 
 class AudioManager(context: Context) {
@@ -73,17 +72,18 @@ class AudioManager(context: Context) {
 
 
     /* Receiver which handles changes in wired headset availability. */
-    private inner class WiredHeadsetReceiver() : BroadcastReceiver() {
+    private inner class WiredHeadsetReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent) {
             val state = intent.getIntExtra("state", STATE_UNPLUGGED)
             val microphone = intent.getIntExtra("microphone", HAS_NO_MIC)
             val name = intent.getStringExtra("name")
             Log.d(
                 TAG, "WiredHeadsetReceiver.onReceive"
-                    + ": " + "a=" + intent.action.toString() + ", s=" +
-                    (if (state == STATE_UNPLUGGED) "unplugged" else "plugged").toString()
-                    + ", m=" + (if (microphone == HAS_MIC) "mic" else "no mic").toString()
-                    + ", n=" + name.toString() + ", sb=" + isInitialStickyBroadcast)
+                        + ": " + "a=" + intent.action.toString() + ", s=" +
+                        (if (state == STATE_UNPLUGGED) "unplugged" else "plugged").toString()
+                        + ", m=" + (if (microphone == HAS_MIC) "mic" else "no mic").toString()
+                        + ", n=" + name.toString() + ", sb=" + isInitialStickyBroadcast
+            )
             hasWiredHeadset = (state == STATE_PLUGGED)
             updateAudioDeviceState()
         }
@@ -292,7 +292,7 @@ class AudioManager(context: Context) {
 
     /** Gets the current earpiece state.  */
     private fun hasEarpiece(): Boolean {
-        return apprtcContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
+        return apprtcContext.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
     }
 
     private fun hasWiredHeadset(): Boolean {
